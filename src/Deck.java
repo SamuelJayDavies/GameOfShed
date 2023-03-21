@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -12,6 +13,14 @@ public class Deck {
      */
     public Deck() {
         cards = generateDeck();
+    }
+
+    /**
+     * Make nicer way to do this in the future.
+     * @param num
+     */
+    public Deck(int num) {
+        cards = new ArrayList<>();
     }
 
     public ArrayList<Card> generateDeck() {
