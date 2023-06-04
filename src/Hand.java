@@ -12,6 +12,10 @@ public class Hand {
         return this.cards;
     }
 
+    public Card getCard(int index) {
+        return cards.get(index);
+    }
+
     public Card getHighestCard() {
         Card highestCard = cards.get(0);
         for (Card card: cards) {
@@ -30,6 +34,10 @@ public class Hand {
         for(Card card: cards) {
             this.cards.add(card);
         }
+    }
+
+    public int getNumOfCards() {
+        return cards.size();
     }
 
     @Override

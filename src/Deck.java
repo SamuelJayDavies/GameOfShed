@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -23,6 +22,10 @@ public class Deck {
         cards = new ArrayList<>();
     }
 
+    /**
+     * Generates a traditional deck of 52 cards, 12 for each suit.
+     * @return Returns the complete deck.
+     */
     public ArrayList<Card> generateDeck() {
         ArrayList<Card> cards = new ArrayList<>();
         for(Suit suit: Suit.values()) {
@@ -33,6 +36,9 @@ public class Deck {
         return cards;
     }
 
+    /**
+     * Shuffles the deck randomly.
+     */
     public void shuffle() {
         Random random = new Random();
         int deckSize = cards.size();
@@ -43,6 +49,10 @@ public class Deck {
         }
     }
 
+    /**
+     * Returns the top card of the deck.
+     * @return The top card of the deck.
+     */
     public Card peekTop() {
         return cards.get(0);
     }

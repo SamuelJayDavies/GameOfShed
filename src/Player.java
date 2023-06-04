@@ -6,7 +6,6 @@ public class Player {
     private Hand constrainedHand;
     private Hand hiddenHand;
     private String name;
-
     private boolean isCpu;
 
     /**
@@ -32,6 +31,10 @@ public class Player {
 
     public Hand getHiddenHand() {
         return this.hiddenHand;
+    }
+
+    public String getName() {
+        return this.name;
     }
 
     public void addToHand(Card card, HandType type) {
