@@ -14,9 +14,13 @@ public class Shed {
         startGame();
     }
 
+    /**
+     * If we wanted a score tracker, have this method return the player that won
+     */
     private void startGame() {
         drawPile.shuffle();
         dealCards();
+        System.out.println("Player: " + roundStart().getName() + " wins!");
     }
 
     private void dealCards() {
@@ -46,15 +50,20 @@ public class Shed {
     }
 
     /**
-     * If we wanted a score tracker, have this method return the player that won
+     * Make this method return Player that won?
      */
-    private void roundStart() {
+    private Player roundStart() {
         for(Player player: players) {
             Hand currentHand = getCurrentHand(player);
             if(discardPile.peekTop().getValue() <= currentHand.getHighestCard().getValue()) {
-
+                // Check for special card here
+                discardPile.addCard(selectCard(currentHand));
+                if(player.getHiddenHand().getNumOfCards() + player.getConstrainedHand().getNumOfCards() + player.getGeneralHand().getNumOfCards() == 0) {
+                    return player;
+                }
             } else {
-                System.out.println("No available cards to play for " + player.getName());
+                System.out.println("No available cards to play for " + player.getName() + "\n");
+                // Pick up the discard pile
             }
         }
     }
