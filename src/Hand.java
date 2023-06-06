@@ -40,6 +40,15 @@ public class Hand {
         return cards.size();
     }
 
+    public void removeCard(Card card) {
+        for(Card currentCard: cards) {
+            if(currentCard.equals(card)) {
+                cards.remove(currentCard);
+                return;
+            }
+        }
+    }
+
     @Override
     public String toString() {
         String msg = "";

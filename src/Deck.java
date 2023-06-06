@@ -54,7 +54,11 @@ public class Deck {
      * @return The top card of the deck.
      */
     public Card peekTop() {
-        return cards.get(0);
+        if(this.cards.size() == 0) {
+            return null;
+        } else {
+            return cards.get(0);
+        }
     }
 
     public Card deal() {
@@ -75,6 +79,10 @@ public class Deck {
         for(Card card: cards) {
             this.cards.add(card);
         }
+    }
+
+    public void empty() {
+        this.cards = new ArrayList<>();
     }
 
     @Override

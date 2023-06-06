@@ -20,7 +20,14 @@ public class Shed {
     private void startGame() {
         drawPile.shuffle();
         dealCards();
-        System.out.println("Player: " + roundStart().getName() + " wins!");
+        int n = 1;
+        System.out.println("Round " + n);
+        System.out.println(this.getCurrentState());
+        while(!(roundStart())) {
+            System.out.println("Round " + (n+1));
+            System.out.println(this.getCurrentState());
+            n++;
+        }
     }
 
     private void dealCards() {
@@ -52,20 +59,34 @@ public class Shed {
     /**
      * Make this method return Player that won?
      */
-    private Player roundStart() {
+    private boolean roundStart() {
         for(Player player: players) {
             Hand currentHand = getCurrentHand(player);
-            if(discardPile.peekTop().getValue() <= currentHand.getHighestCard().getValue()) {
-                // Check for special card here
-                discardPile.addCard(selectCard(currentHand));
+            if(discardPile.peekTop() == null) {
+                Card cardToPlay = selectCard(currentHand);
+                discardPile.addCard(cardToPlay);
+                currentHand.removeCard(cardToPlay);
+                System.out.println(player.getName() + " has played " + cardToPlay);
                 if(player.getHiddenHand().getNumOfCards() + player.getConstrainedHand().getNumOfCards() + player.getGeneralHand().getNumOfCards() == 0) {
-                    return player;
+                    return true;
                 }
+            } else if(discardPile.peekTop().getValue() <= currentHand.getHighestCard().getValue()) {
+                // Check for special card here
+                Card cardToPlay = selectCard(currentHand);
+                discardPile.addCard(cardToPlay);
+                currentHand.removeCard(cardToPlay);
+                System.out.println(player.getName() + " has played " + cardToPlay);
+                if(player.getHiddenHand().getNumOfCards() + player.getConstrainedHand().getNumOfCards() + player.getGeneralHand().getNumOfCards() == 0) {
+                    return true;
+                }
+
             } else {
                 System.out.println("No available cards to play for " + player.getName() + "\n");
-                // Pick up the discard pile
+                player.addToGeneral(discardPile.getCards());
+                discardPile.empty();
             }
         }
+        return false;
     }
 
     private Hand getCurrentHand(Player player) {
@@ -80,6 +101,7 @@ public class Shed {
 
     private Card selectCard(Hand currentHand) {
         Scanner myReader = new Scanner(System.in);
+        this.getCurrentState();
         System.out.println("Please select which card to play: \n");
 
         for(int i = 0; i < currentHand.getNumOfCards(); i++) {
@@ -94,12 +116,23 @@ public class Shed {
                 myReader.nextLine();
             }
             index = myReader.nextInt();
-            if(myReader.nextInt() > (currentHand.getNumOfCards()-1)) {
+            if(index <= (currentHand.getNumOfCards()-1)) {
                 isFinished = true;
             } else {
                 System.out.println("Please enter a number between 0 and " + (currentHand.getNumOfCards()-1) + "\n");
             }
         }
         return currentHand.getCard(index);
+    }
+
+    private String getCurrentState() {
+        Card topCard = discardPile.peekTop();
+        String result = "Discard Pile's Card : " + ((topCard == null) ? "empty" : topCard) + "\n";
+        for(Player player : players) {
+            result += "Player " + player.getName() + " has the following cards:\n";
+            result += "Hidden: " + player.getHiddenHand().getNumOfCards() + ", Constrained: " + player.getConstrainedHand().getNumOfCards() +
+                    ", General: " + player.getGeneralHand().getNumOfCards() + "\n\n";
+        }
+        return result;
     }
 }
