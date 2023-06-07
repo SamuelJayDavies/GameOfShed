@@ -57,7 +57,7 @@ public class Deck {
         if(this.cards.size() == 0) {
             return null;
         } else {
-            return cards.get(0);
+            return cards.get(cards.size()-1);
         }
     }
 
@@ -83,6 +83,10 @@ public class Deck {
 
     public void empty() {
         this.cards = new ArrayList<>();
+    }
+
+    public boolean isEmpty() {
+        return this.cards.size() == 0;
     }
 
     @Override

@@ -5,8 +5,8 @@ public class Player {
     private Hand generalHand;
     private Hand constrainedHand;
     private Hand hiddenHand;
-    private String name;
-    private boolean isCpu;
+    private final String name;
+    private final boolean isCpu;
 
     /**
      * Probably nicer way to do isCpu functionality.
@@ -14,9 +14,9 @@ public class Player {
      * @param isCpu
      */
     public Player(String name, boolean isCpu) {
-        generalHand = new Hand();
-        constrainedHand = new Hand();
-        hiddenHand = new Hand();
+        generalHand = new Hand(HandType.Regular);
+        constrainedHand = new Hand(HandType.Constrained);
+        hiddenHand = new Hand(HandType.Hidden);
         this.name = name;
         this.isCpu = isCpu;
     }

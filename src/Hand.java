@@ -3,8 +3,10 @@ import java.util.ArrayList;
 public class Hand {
 
     private ArrayList<Card> cards;
+    private final HandType handType;
 
-    public Hand() {
+    public Hand(HandType handType) {
+        this.handType = handType;
         cards = new ArrayList<>();
     }
 
@@ -13,7 +15,11 @@ public class Hand {
     }
 
     public Card getCard(int index) {
-        return cards.get(index);
+        try{
+            return cards.get(index);
+        }catch(ArrayIndexOutOfBoundsException error) {
+            return null;
+        }
     }
 
     public Card getHighestCard() {
@@ -24,6 +30,10 @@ public class Hand {
             }
         }
         return highestCard;
+    }
+
+    public HandType getHandType() {
+        return this.handType;
     }
 
     public void addCard(Card card) {
