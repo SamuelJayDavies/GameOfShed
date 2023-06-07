@@ -1,3 +1,6 @@
+/**
+ * Class that models a playing card.
+ */
 public class Card {
 
     /**
