@@ -67,16 +67,16 @@ public class Shed {
             Hand currentHand = getCurrentHand(player);
             System.out.print(player.getName() + ", ");
             Card cardToPlay = selectCard(currentHand);
-            if(cardToPlay != null && (discardPile.isEmpty() || discardPile.peekTop().getValue() <= cardToPlay.getValue())) {
-                discardPile.addCard(cardToPlay);
-                currentHand.removeCard(cardToPlay);
+            if(cardToPlay != null && ((discardPile.isEmpty() || (discardPile.peekTop().getValue() <= cardToPlay.getValue() && discardPile.peekTop().getValue() != 7)) ||
+                    (cardToPlay.getValue() == 2 || cardToPlay.getValue() == 10))) {
+
+                playCard(cardToPlay, currentHand);
                 System.out.println(player.getName() + " has played " + cardToPlay);
                 if(player.getHiddenHand().getNumOfCards() + player.getConstrainedHand().getNumOfCards() + player.getGeneralHand().getNumOfCards() == 0) {
                     System.out.println(player.getName() + " wins!");
                     return true;
                 }
-            }
-            if(cardToPlay == null || discardPile.peekTop().getValue() > cardToPlay.getValue()) {
+            } else if(cardToPlay == null || (discardPile.peekTop().getValue() > cardToPlay.getValue() || discardPile.peekTop().getValue() == 7)) {
                 // Add more sout for when the user plays a lower card
                 if(discardPile.isEmpty()) {
                     System.out.println(player.getName() + " picks up nothing.\n");
@@ -93,6 +93,18 @@ public class Shed {
             }
         }
         return false;
+    }
+
+    private void playCard(Card cardToPlay, Hand currentHand) {
+
+        discardPile.addCard(cardToPlay);
+        currentHand.removeCard(cardToPlay);
+
+        if(cardToPlay.getValue() == 10) {
+            discardPile.empty();
+            System.out.println("Discard deck has been cleared\n");
+            // Add ability to play another card here
+        }
     }
 
     private Hand getCurrentHand(Player player) {
