@@ -5,18 +5,38 @@ import java.util.ArrayList;
  */
 public class Hand {
 
+    /**
+     * An arrayList of cards in the hand.
+     */
     private ArrayList<Card> cards;
+
+    /**
+     * The hand type of the hand. Either General/Constrained/Hidden.
+     */
     private final HandType handType;
 
+    /**
+     * Creates a hand of cards initially empty.
+     * @param handType The hand type of the hand. Either General/Constrained/Hidden.
+     */
     public Hand(HandType handType) {
         this.handType = handType;
         cards = new ArrayList<>();
     }
 
+    /**
+     * Returns all the cards in the hand.
+     * @return An arrayList of the cards in the hand.
+     */
     public ArrayList<Card> getCards() {
         return this.cards;
     }
 
+    /**
+     * Returns the card from the hand corresponding to the provided index.
+     * @param index The position of the card in the hand. Starts from 0.
+     * @return The card found in that position in the hand.
+     */
     public Card getCard(int index) {
         try{
             return cards.get(index);
@@ -25,6 +45,10 @@ public class Hand {
         }
     }
 
+    /**
+     * Returns the highest card in the hand.
+     * @return The highest card in the hand.
+     */
     public Card getHighestCard() {
         Card highestCard = cards.get(0);
         for (Card card: cards) {
