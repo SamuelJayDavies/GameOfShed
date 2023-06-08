@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 
+/**
+ * Models a hand of cards that a particular player would hold. Can add/remove/get cards from their hand.
+ */
 public class Hand {
 
     private ArrayList<Card> cards;

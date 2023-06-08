@@ -9,8 +9,8 @@ public class Shed {
 
     public Shed(ArrayList<Player> players) {
         this.players = players;
-        drawPile = new Deck();
-        discardPile = new Deck(-1);
+        drawPile = new Deck(DeckType.DRAW);
+        discardPile = new Deck(DeckType.DISCARD);
         startGame();
     }
 

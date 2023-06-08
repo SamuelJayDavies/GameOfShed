@@ -1,5 +1,5 @@
 /**
- * Class that models a playing card.
+ * Class that models a playing card including the value and suit of the card.
  */
 public class Card {
 
