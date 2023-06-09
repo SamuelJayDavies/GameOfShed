@@ -59,24 +59,44 @@ public class Hand {
         return highestCard;
     }
 
+    /**
+     * Returns the hand type of the hand.
+     * @return The hand type of the hand.
+     */
     public HandType getHandType() {
         return this.handType;
     }
 
+    /**
+     * Adds a new card to the deck.
+     * @param card A new card to the deck.
+     */
     public void addCard(Card card) {
         cards.add(card);
     }
 
+    /**
+     * Adds multiple new cards to the deck.
+     * @param cards An arrayList containing all the new cards.
+     */
     public void addCards(ArrayList<Card> cards) {
         for(Card card: cards) {
             this.cards.add(card);
         }
     }
 
+    /**
+     * Returns the number of cards in the hand.
+     * @return The number of cards in the hand.
+     */
     public int getNumOfCards() {
         return cards.size();
     }
 
+    /**
+     * Removes the card passed into the method from the hand.
+     * @param card The card to be removed.
+     */
     public void removeCard(Card card) {
         for(Card currentCard: cards) {
             if(currentCard.equals(card)) {
@@ -86,6 +106,10 @@ public class Hand {
         }
     }
 
+    /**
+     * Returns A String representation of the hand.
+     * @return A String representation of the hand.
+     */
     @Override
     public String toString() {
         String msg = "";

@@ -1,11 +1,34 @@
 import java.util.ArrayList;
 
+/**
+ * Models a player of Shed. Each player has three hands, a name and a flag stating if they are a user or a cpu.
+ */
 public class Player {
 
+    /**
+     * The starting hand that needs to be empty before the constrained hand can be used.
+     */
     private Hand generalHand;
+
+    /**
+     * The hand that sits on top of the hidden hand. ALl the cards need to be removed before hidden cards can be played.
+     */
     private Hand constrainedHand;
+
+    /**
+     * The last hand of cards. The value of these cards can't be seen until they are played. Once this hand is empty, the
+     * player has won the game.
+     */
     private Hand hiddenHand;
+
+    /**
+     * The name of the player.
+     */
     private final String name;
+
+    /**
+     * True if the player is the computer, else false for a user.
+     */
     private final boolean isCpu;
 
     /**
