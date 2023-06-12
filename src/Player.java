@@ -44,6 +44,10 @@ public class Player {
         this.isCpu = isCpu;
     }
 
+    /**
+     *
+     * @return
+     */
     public Hand getGeneralHand() {
         return this.generalHand;
     }
