@@ -1,12 +1,32 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * The main class where the game of shed starts. Contains methods for dealing cards, starting a round and getting the
+ * correct hand from the player.
+ */
 public class Shed {
 
+    /**
+     * The pile that is drawn from at the beginning of the game.
+     */
     private Deck drawPile;
+
+    /**
+     * The pile that cards are played onto, for a valid play the card has to be higher value than the last card in this
+     * pile.
+     */
     private Deck discardPile;
+
+    /**
+     * All the players in the game.
+     */
     private ArrayList<Player> players;
 
+    /**
+     * Constructor for Shed that creates a draw and discard pile while also starting the game.
+     * @param players The players that will be participating in the game.
+     */
     public Shed(ArrayList<Player> players) {
         this.players = players;
         drawPile = new Deck(DeckType.DRAW);

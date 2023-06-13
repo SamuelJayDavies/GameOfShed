@@ -45,25 +45,42 @@ public class Player {
     }
 
     /**
-     *
-     * @return
+     * Returns the general hand of the player.
+     * @return The general hand of the player.
      */
     public Hand getGeneralHand() {
         return this.generalHand;
     }
 
+    /**
+     * Returns the constrained hand of the player.
+     * @return The constrained hand of the player.
+     */
     public Hand getConstrainedHand() {
         return this.constrainedHand;
     }
 
+    /**
+     * Returns the hidden hand of the player.
+     * @return The hidden hand of the player.
+     */
     public Hand getHiddenHand() {
         return this.hiddenHand;
     }
 
+    /**
+     * Returns the name of the player.
+     * @return The name of the player.
+     */
     public String getName() {
         return this.name;
     }
 
+    /**
+     * Adds the passed in card to the correct hand type.
+     * @param card The card being added to the hand.
+     * @param type The hand type that the card is being added to.
+     */
     public void addToHand(Card card, HandType type) {
         switch(type) {
             case Regular -> generalHand.addCard(card);
@@ -72,6 +89,10 @@ public class Player {
         }
     }
 
+    /**
+     * Adds cards to the general hand of the player.
+     * @param cards The cards to be added to the general hand.
+     */
     public void addToGeneral(ArrayList<Card> cards) {
         generalHand.addCards(cards);
     }
