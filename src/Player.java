@@ -32,9 +32,9 @@ public class Player {
     private final boolean isCpu;
 
     /**
-     * Probably nicer way to do isCpu functionality.
-     * @param name
-     * @param isCpu
+     * Creates a new player and each of their hands.
+     * @param name The name of the player.
+     * @param isCpu True if they are an AI, false if they are a player.
      */
     public Player(String name, boolean isCpu) {
         generalHand = new Hand(HandType.Regular);
