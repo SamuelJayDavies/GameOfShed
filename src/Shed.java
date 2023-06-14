@@ -35,7 +35,7 @@ public class Shed {
     }
 
     /**
-     * If we wanted a score tracker, have this method return the player that won
+     * Starts a game of Shed. One execution will play a whole game of Shed.
      */
     private void startGame() {
         drawPile.shuffle();
@@ -51,6 +51,10 @@ public class Shed {
         System.out.println("Game Over");
     }
 
+    /**
+     * Deals the cards for each player in the players list. Populates their regular, constrained and general hand with
+     * 3 cards.
+     */
     private void dealCards() {
         for(int i = 0; i < 3; i++) {
             for (Player player : players) {
@@ -69,16 +73,28 @@ public class Shed {
         }
     }
 
+    /**
+     * Passes a card into a players correct hand.
+     * @param player The Player receiving the card.
+     * @param card The card the player is receiving.
+     * @param type The hand type the card belongs to.
+     */
     private void receiveCard(Player player, Card card, HandType type) {
         player.addToHand(card, type);
     }
 
+    /**
+     * Adds multiple cards to the general hand of the player.
+     * @param player The player receiving the cards.
+     * @param cards The cards being received.
+     */
     private void receiveCards(Player player, ArrayList<Card> cards) {
         player.addToGeneral(cards);
     }
 
     /**
-     * Make this method return Player that won?
+     * Acts as one round of Shed.
+     * @return Returns true if a player has won, else returns false to start another round.
      */
     private boolean roundStart() {
         for(Player player: players) {
@@ -102,7 +118,7 @@ public class Shed {
                     System.out.println(player.getName() + " picks up nothing.\n");
                 } else if(cardToPlay == null){
                     System.out.println(player.getName() + " picks up the discard pile.\n" );
-                    player.addToGeneral(discardPile.getCards());
+                    player.addToGeneral(discardPile.getCards()); // Look into changing this method to the receiveCards version
                     discardPile.empty();
                 } else {
                     System.out.println(player.getName() + "'s card is not suitable.\n");
@@ -115,6 +131,11 @@ public class Shed {
         return false;
     }
 
+    /**
+     * Plays a card by placing it into the discard pile.
+     * @param cardToPlay The card that is being played.
+     * @param currentHand The hand the card came from.
+     */
     private void playCard(Card cardToPlay, Hand currentHand) {
 
         discardPile.addCard(cardToPlay);
@@ -127,6 +148,11 @@ public class Shed {
         }
     }
 
+    /**
+     * Gets the current hand the player can use, based on if the general hand is empty or the constrained hand is empty.
+     * @param player The player whose turn it currently is.0
+     * @return The hand that they are currently on in the game.
+     */
     private Hand getCurrentHand(Player player) {
         if(player.getGeneralHand().getNumOfCards() != 0) {
             return player.getGeneralHand();
@@ -137,6 +163,12 @@ public class Shed {
         }
     }
 
+    /**
+     * SelectCard will read out the players available cards and read in which one they want to play. It will only let them
+     * specify the index of an available card, and if an invalid card is chosen, they will automatically pick up the pile.
+     * @param currentHand The hand the card is being selected from.
+     * @return The chosen valid card.
+     */
     private Card selectCard(Hand currentHand) {
         Scanner myReader = new Scanner(System.in);
         this.getCurrentState();
@@ -170,6 +202,10 @@ public class Shed {
         return index < currentHand.getNumOfCards() ? currentHand.getCard(index) : null;
     }
 
+    /**
+     * Returns the count of each player's cards in each of their hands.
+     * @return The count of each player's cards in each of their hands.
+     */
     private String getCurrentState() {
         Card topCard = discardPile.peekTop();
         String result = "Discard Pile's Card : " + ((topCard == null) ? "empty" : topCard) + "\n";
