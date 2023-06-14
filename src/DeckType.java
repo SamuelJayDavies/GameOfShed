@@ -4,6 +4,13 @@
  */
 public enum DeckType {
 
+    /**
+     * For a draw pile or deck. Starts populated and cards are only taken from it.
+     */
     DRAW,
+
+    /**
+     * For a discard pile or deck. Starts empty and cards are added and taken.
+     */
     DISCARD
 }
