@@ -17,6 +17,7 @@ public class Hand {
 
     /**
      * Creates a hand of cards initially empty.
+     *
      * @param handType The hand type of the hand. Either General/Constrained/Hidden.
      */
     public Hand(HandType handType) {
@@ -26,6 +27,7 @@ public class Hand {
 
     /**
      * Returns all the cards in the hand.
+     *
      * @return An arrayList of the cards in the hand.
      */
     public ArrayList<Card> getCards() {
@@ -34,25 +36,27 @@ public class Hand {
 
     /**
      * Returns the card from the hand corresponding to the provided index.
+     *
      * @param index The position of the card in the hand. Starts from 0.
      * @return The card found in that position in the hand.
      */
     public Card getCard(int index) {
-        try{
+        try {
             return cards.get(index);
-        }catch(ArrayIndexOutOfBoundsException error) {
+        } catch (ArrayIndexOutOfBoundsException error) {
             return null;
         }
     }
 
     /**
      * Returns the highest card in the hand.
+     *
      * @return The highest card in the hand.
      */
     public Card getHighestCard() {
         Card highestCard = cards.get(0);
-        for (Card card: cards) {
-            if(card.getValue() > highestCard.getValue()) {
+        for (Card card : cards) {
+            if (card.getValue() > highestCard.getValue()) {
                 highestCard = card;
             }
         }
@@ -61,6 +65,7 @@ public class Hand {
 
     /**
      * Returns the hand type of the hand.
+     *
      * @return The hand type of the hand.
      */
     public HandType getHandType() {
@@ -69,6 +74,7 @@ public class Hand {
 
     /**
      * Adds a new card to the deck.
+     *
      * @param card A new card to the deck.
      */
     public void addCard(Card card) {
@@ -77,16 +83,18 @@ public class Hand {
 
     /**
      * Adds multiple new cards to the deck.
+     *
      * @param cards An arrayList containing all the new cards.
      */
     public void addCards(ArrayList<Card> cards) {
-        for(Card card: cards) {
+        for (Card card : cards) {
             this.cards.add(card);
         }
     }
 
     /**
      * Returns the number of cards in the hand.
+     *
      * @return The number of cards in the hand.
      */
     public int getNumOfCards() {
@@ -95,11 +103,12 @@ public class Hand {
 
     /**
      * Removes the card passed into the method from the hand.
+     *
      * @param card The card to be removed.
      */
     public void removeCard(Card card) {
-        for(Card currentCard: cards) {
-            if(currentCard.equals(card)) {
+        for (Card currentCard : cards) {
+            if (currentCard.equals(card)) {
                 cards.remove(currentCard);
                 return;
             }
@@ -108,12 +117,13 @@ public class Hand {
 
     /**
      * Returns A String representation of the hand.
+     *
      * @return A String representation of the hand.
      */
     @Override
     public String toString() {
         String msg = "";
-        for (Card card: cards) {
+        for (Card card : cards) {
             msg += card + "\n";
         }
         return msg;
