@@ -216,18 +216,8 @@ public class Shed {
     private Card selectCard(Hand currentHand) {
         Scanner myReader = new Scanner(System.in);
         this.getCurrentState();
-        System.out.println("please select which card to play: \n");
-        int i;
-        for (i = 0; i < currentHand.getNumOfCards(); i++) {
-            Card currentCard = currentHand.getCard(i);
-            if (currentHand.getHandType().equals(HandType.Hidden)) {
-                System.out.println(i + ": Unknown Card");
-            } else {
-                System.out.println(i + ": " + currentCard + "\n");
-            }
-        }
 
-        System.out.println(i++ + ": Pick Up Discard Pile");
+        System.out.println(getCardChoices(currentHand));
 
         boolean isFinished = false;
         int index = -1;
@@ -244,6 +234,22 @@ public class Shed {
             }
         }
         return index < currentHand.getNumOfCards() ? currentHand.getCard(index) : null;
+    }
+
+    private String getCardChoices(Hand currentHand) {
+        String stringMsg = "please select which card to play: \n";
+        int i;
+        for (i = 0; i < currentHand.getNumOfCards(); i++) {
+            Card currentCard = currentHand.getCard(i);
+            if (currentHand.getHandType().equals(HandType.Hidden)) {
+                stringMsg += i + ": Unknown Card";
+            } else {
+                stringMsg += i + ": " + currentCard + "\n";
+            }
+        }
+
+        stringMsg += i++ + ": Pick Up Discard Pile";
+        return stringMsg;
     }
 
     /**
