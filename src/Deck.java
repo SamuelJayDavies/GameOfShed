@@ -118,6 +118,10 @@ public class Deck {
         return this.cards.size() == 0;
     }
 
+    public int getDeckSize() {
+        return cards.size();
+    }
+
     /**
      * Returns A String representation of the deck.
      * @return A String representation of the deck.

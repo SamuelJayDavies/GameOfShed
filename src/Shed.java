@@ -55,16 +55,11 @@ public class Shed {
             }
             int option = myReader.nextInt();
             switch (option) {
-                case 1:
-                    selectedGameMode = GameType.BasicFast;
-                case 2:
-                    selectedGameMode = GameType.Basic;
-                case 3:
-                    selectedGameMode = GameType.RegularFast;
-                case 4:
-                    selectedGameMode = GameType.Regular;
-                default:
-                    System.out.println("Please enter a number that corresponds to one of the game modes");
+                case 1 -> selectedGameMode = GameType.BasicFast;
+                case 2 -> selectedGameMode = GameType.Basic;
+                case 3 -> selectedGameMode = GameType.RegularFast;
+                case 4 -> selectedGameMode = GameType.Regular;
+                default -> System.out.println("Please enter a number that corresponds to one of the game modes");
             }
 
             isFinished = selectedGameMode != null;
@@ -80,13 +75,24 @@ public class Shed {
         dealCards();
         int n = 1;
         System.out.println("Round " + n);
-        System.out.println(this.getCurrentState());
+        System.out.println(this.getCurrentState(gameMode));
         while (!(roundStart())) {
+            if(gameMode.equals(GameType.Basic) && (!(drawPile.isEmpty()))) {
+                preGameDraw();
+            }
             System.out.println("Round " + (n + 1));
-            System.out.println(this.getCurrentState());
+            System.out.println(this.getCurrentState(gameMode));
             n++;
         }
         System.out.println("Game Over");
+    }
+
+    private void preGameDraw() {
+        for(Player player: players) {
+            if(player.getGeneralHand().getNumOfCards() < 3) {
+                receiveCard(player, drawPile.deal(), HandType.Regular);
+            }
+        }
     }
 
     /**
@@ -144,28 +150,40 @@ public class Shed {
             Hand currentHand = getCurrentHand(player);
             System.out.print(player.getName() + ", ");
             Card cardToPlay = selectCard(currentHand);
-            if (cardToPlay != null && ((discardPile.isEmpty() || (discardPile.peekTop().getValue() <= cardToPlay.getValue() && discardPile.peekTop().getValue() != 7)) ||
-                    (cardToPlay.getValue() == 2 || cardToPlay.getValue() == 10))) {
 
+            if (isCardPlayable(cardToPlay)) {
                 playCard(cardToPlay, currentHand);
                 System.out.println(player.getName() + " has played " + cardToPlay);
                 if (player.getHiddenHand().getNumOfCards() + player.getConstrainedHand().getNumOfCards() + player.getGeneralHand().getNumOfCards() == 0) {
                     System.out.println(player.getName() + " wins!");
                     return true;
                 }
-            } else if (cardToPlay == null || (discardPile.peekTop().getValue() > cardToPlay.getValue() || discardPile.peekTop().getValue() == 7)) {
-                // Add more sout for when the user plays a lower card
+            } else if (cardToPlay == null) {
+
                 if (discardPile.isEmpty()) {
                     System.out.println(player.getName() + " picks up nothing.\n");
-                } else if (cardToPlay == null) {
+                } else {
                     System.out.println(player.getName() + " picks up the discard pile.\n");
                     player.addToGeneral(discardPile.getCards()); // Look into changing this method to the receiveCards version
                     discardPile.empty();
-                } else {
-                    System.out.println(player.getName() + "'s card is not suitable.\n");
-                    System.out.println(player.getName() + " picks up the discard pile.\n");
-                    player.addToGeneral(discardPile.getCards());
-                    discardPile.empty();
+                }
+            } else {
+                System.out.println(player.getName() + " tried to play a " + cardToPlay + ". This card is not suitable.\n");
+                System.out.println(player.getName() + " picks up the discard pile.\n");
+                player.addToGeneral(discardPile.getCards());
+                discardPile.empty();
+            }
+        }
+        return false;
+    }
+
+    private boolean isCardPlayable(Card cardToPlay) {
+        if (cardToPlay != null) {
+            if (discardPile.isEmpty() || cardToPlay.getValue() == 2 || cardToPlay.getValue() == 10) {
+                return true;
+            } else {
+                if (discardPile.peekTop().getValue() <= cardToPlay.getValue()) {
+                    return discardPile.peekTop().getValue() != 7 || cardToPlay.getValue() == 7;
                 }
             }
         }
@@ -215,7 +233,7 @@ public class Shed {
      */
     private Card selectCard(Hand currentHand) {
         Scanner myReader = new Scanner(System.in);
-        this.getCurrentState();
+        //this.getCurrentState();
 
         System.out.println(getCardChoices(currentHand));
 
@@ -242,7 +260,7 @@ public class Shed {
         for (i = 0; i < currentHand.getNumOfCards(); i++) {
             Card currentCard = currentHand.getCard(i);
             if (currentHand.getHandType().equals(HandType.Hidden)) {
-                stringMsg += i + ": Unknown Card";
+                stringMsg += i + ": Unknown Card" + "\n";
             } else {
                 stringMsg += i + ": " + currentCard + "\n";
             }
@@ -257,14 +275,22 @@ public class Shed {
      *
      * @return The count of each player's cards in each of their hands.
      */
-    private String getCurrentState() {
+    private String getCurrentState(GameType gameType) {
         Card topCard = discardPile.peekTop();
-        String result = "Discard Pile's Card : " + ((topCard == null) ? "empty" : topCard) + "\n";
+        String result = "";
+
+        if(gameType.equals(GameType.Basic)) {
+            result += "Draw Pile has " + drawPile.getDeckSize() + " cards remaining" + "\n";
+        }
+
+        result += "Discard Pile's Card : " + ((topCard == null) ? "empty" : topCard) + "\n";
+
         for (Player player : players) {
             result += "Player " + player.getName() + " has the following cards:\n";
             result += "Hidden: " + player.getHiddenHand().getNumOfCards() + ", Constrained: " + player.getConstrainedHand().getNumOfCards() +
                     ", General: " + player.getGeneralHand().getNumOfCards() + "\n\n";
         }
+
         return result;
     }
 }
