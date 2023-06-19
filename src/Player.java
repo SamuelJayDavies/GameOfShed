@@ -76,6 +76,10 @@ public class Player {
         return this.name;
     }
 
+    public boolean getIsCpu() {
+        return this.isCpu;
+    }
+
     /**
      * Adds the passed in card to the correct hand type.
      * @param card The card being added to the hand.

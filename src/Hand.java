@@ -53,14 +53,17 @@ public class Hand {
      *
      * @return The highest card in the hand.
      */
-    public Card getHighestCard() {
-        Card highestCard = cards.get(0);
+    public Card getLowestCard() {
+        // Need to change this method in the case of a 2
+        Card lowestCard = cards.get(0);
         for (Card card : cards) {
-            if (card.getValue() > highestCard.getValue()) {
-                highestCard = card;
+            if (card.getValue() < lowestCard.getValue()) {
+                lowestCard = card;
             }
         }
-        return highestCard;
+
+        if
+        return lowestCard;
     }
 
     /**

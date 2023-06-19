@@ -148,8 +148,13 @@ public class Shed {
             Card topCard = discardPile.peekTop();
             System.out.println("Discard Pile's Card : " + ((topCard == null) ? "empty" : topCard) + "\n");
             Hand currentHand = getCurrentHand(player);
-            System.out.print(player.getName() + ", ");
-            Card cardToPlay = selectCard(currentHand);
+
+            // Fix this, messy
+            if(!(player.getIsCpu())) {
+                System.out.print(player.getName() + ", ");
+            }
+
+            Card cardToPlay = selectCard(currentHand, player.getIsCpu());
 
             if (isCardPlayable(cardToPlay)) {
                 playCard(cardToPlay, currentHand);
@@ -231,27 +236,69 @@ public class Shed {
      * @param currentHand The hand the card is being selected from.
      * @return The chosen valid card.
      */
-    private Card selectCard(Hand currentHand) {
-        Scanner myReader = new Scanner(System.in);
-        //this.getCurrentState();
+    private Card selectCard(Hand currentHand, boolean isCpu) {
+        if(isCpu) {
+            return cpuCardChoice(currentHand);
+        } else {
+            Scanner myReader = new Scanner(System.in);
+            //this.getCurrentState();
 
-        System.out.println(getCardChoices(currentHand));
+            System.out.println(getCardChoices(currentHand));
 
-        boolean isFinished = false;
-        int index = -1;
-        while (!isFinished) {
-            while (!(myReader.hasNextInt())) {
-                System.out.println("Please enter a number. " + "\n");
-                myReader.nextLine();
+            boolean isFinished = false;
+            int index = -1;
+            while (!isFinished) {
+                while (!(myReader.hasNextInt())) {
+                    System.out.println("Please enter a number. " + "\n");
+                    myReader.nextLine();
+                }
+                index = myReader.nextInt();
+                if (index <= (currentHand.getNumOfCards())) {
+                    isFinished = true;
+                } else {
+                    System.out.println("Please enter a number between 0 and " + (currentHand.getNumOfCards()) + "\n");
+                }
             }
-            index = myReader.nextInt();
-            if (index <= (currentHand.getNumOfCards())) {
-                isFinished = true;
-            } else {
-                System.out.println("Please enter a number between 0 and " + (currentHand.getNumOfCards()) + "\n");
-            }
+            return index < currentHand.getNumOfCards() ? currentHand.getCard(index) : null;
         }
-        return index < currentHand.getNumOfCards() ? currentHand.getCard(index) : null;
+    }
+
+    private Card cpuCardChoice(Hand currentHand) {
+        Card comparisonCard = discardPile.peekTop();
+
+        if(comparisonCard == null) {
+            return currentHand.getLowestCard();
+        } else {
+            Card cardToPlay = null;
+            int cardDiff = -1;
+            Card specialCard = null;
+            for(Card card : currentHand.getCards()) {
+
+                if(card.getValue() >= comparisonCard.getValue()) {
+
+                    if(cardToPlay == null) {
+                        cardToPlay = card;
+                        cardDiff = cardToPlay.getValue() - comparisonCard.getValue();
+
+                    } else if(card.getValue() - comparisonCard.getValue() < cardDiff) {
+                        cardToPlay = card;
+                        cardDiff = cardToPlay.getValue() - comparisonCard.getValue();
+
+                    } else if(card.getValue() == 2 || card.getValue() == 10) {
+
+                        if(specialCard == null || specialCard.getValue() != 10) {
+                            specialCard = card;
+                        }
+                    }
+                }
+            }
+
+            if(cardToPlay == null && specialCard != null) {
+
+            }
+            return cardToPlay;
+        }
+
     }
 
     private String getCardChoices(Hand currentHand) {
