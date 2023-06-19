@@ -53,17 +53,30 @@ public class Hand {
      *
      * @return The highest card in the hand.
      */
-    public Card getLowestCard() {
-        // Need to change this method in the case of a 2
+    public Card getLowestRegularCard() {
         Card lowestCard = cards.get(0);
         for (Card card : cards) {
-            if (card.getValue() < lowestCard.getValue()) {
-                lowestCard = card;
+            if(card.getValue() != 2 && card.getValue() != 10) {
+                if (card.getValue() < lowestCard.getValue()) {
+                    lowestCard = card;
+                }
             }
         }
-
-        if
         return lowestCard;
+    }
+
+    public Card getLowestSpecialCard() {
+        Card specialCard = null;
+        for (Card card : cards) {
+            if(card.getValue() == 2 || card.getValue() == 10) {
+                if(specialCard == null) {
+                    specialCard = card;
+                } else if(specialCard.getValue() == 10) {
+                    specialCard = card;
+                }
+            }
+        }
+        return specialCard;
     }
 
     /**

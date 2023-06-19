@@ -77,7 +77,7 @@ public class Shed {
         System.out.println("Round " + n);
         System.out.println(this.getCurrentState(gameMode));
         while (!(roundStart())) {
-            if(gameMode.equals(GameType.Basic) && (!(drawPile.isEmpty()))) {
+            if (gameMode.equals(GameType.Basic) && (!(drawPile.isEmpty()))) {
                 preGameDraw();
             }
             System.out.println("Round " + (n + 1));
@@ -88,8 +88,8 @@ public class Shed {
     }
 
     private void preGameDraw() {
-        for(Player player: players) {
-            if(player.getGeneralHand().getNumOfCards() < 3) {
+        for (Player player : players) {
+            if (player.getGeneralHand().getNumOfCards() < 3) {
                 receiveCard(player, drawPile.deal(), HandType.Regular);
             }
         }
@@ -150,7 +150,7 @@ public class Shed {
             Hand currentHand = getCurrentHand(player);
 
             // Fix this, messy
-            if(!(player.getIsCpu())) {
+            if (!(player.getIsCpu())) {
                 System.out.print(player.getName() + ", ");
             }
 
@@ -187,8 +187,10 @@ public class Shed {
             if (discardPile.isEmpty() || cardToPlay.getValue() == 2 || cardToPlay.getValue() == 10) {
                 return true;
             } else {
-                if (discardPile.peekTop().getValue() <= cardToPlay.getValue()) {
-                    return discardPile.peekTop().getValue() != 7 || cardToPlay.getValue() == 7;
+                if (cardToPlay.getValue() >= discardPile.peekTop().getValue()) {
+                    return true;
+                } else if(discardPile.peekTop().getValue() == 7) {
+                    return true;
                 }
             }
         }
@@ -237,7 +239,7 @@ public class Shed {
      * @return The chosen valid card.
      */
     private Card selectCard(Hand currentHand, boolean isCpu) {
-        if(isCpu) {
+        if (isCpu) {
             return cpuCardChoice(currentHand);
         } else {
             Scanner myReader = new Scanner(System.in);
@@ -266,37 +268,36 @@ public class Shed {
     private Card cpuCardChoice(Hand currentHand) {
         Card comparisonCard = discardPile.peekTop();
 
-        if(comparisonCard == null) {
-            return currentHand.getLowestCard();
+        if (comparisonCard == null) {
+            return currentHand.getLowestRegularCard();
         } else {
             Card cardToPlay = null;
             int cardDiff = -1;
-            Card specialCard = null;
-            for(Card card : currentHand.getCards()) {
+            if (comparisonCard.getValue() != 7) {
+                for (Card card : currentHand.getCards()) {
 
-                if(card.getValue() >= comparisonCard.getValue()) {
+                    if (card.getValue() >= comparisonCard.getValue()) {
 
-                    if(cardToPlay == null) {
-                        cardToPlay = card;
-                        cardDiff = cardToPlay.getValue() - comparisonCard.getValue();
+                        if (cardToPlay == null) {
+                            cardToPlay = card;
+                            cardDiff = cardToPlay.getValue() - comparisonCard.getValue();
 
-                    } else if(card.getValue() - comparisonCard.getValue() < cardDiff) {
-                        cardToPlay = card;
-                        cardDiff = cardToPlay.getValue() - comparisonCard.getValue();
+                        } else if (card.getValue() - comparisonCard.getValue() < cardDiff) {
+                            cardToPlay = card;
+                            cardDiff = cardToPlay.getValue() - comparisonCard.getValue();
 
-                    } else if(card.getValue() == 2 || card.getValue() == 10) {
-
-                        if(specialCard == null || specialCard.getValue() != 10) {
-                            specialCard = card;
                         }
                     }
                 }
+
+            } else {
+                cardToPlay = currentHand.getLowestRegularCard();
+                if (!(cardToPlay.getValue() <= 7)) {
+                    cardToPlay = null;
+                }
             }
 
-            if(cardToPlay == null && specialCard != null) {
-
-            }
-            return cardToPlay;
+            return (cardToPlay == null) ? currentHand.getLowestSpecialCard() : cardToPlay;
         }
 
     }
@@ -326,7 +327,7 @@ public class Shed {
         Card topCard = discardPile.peekTop();
         String result = "";
 
-        if(gameType.equals(GameType.Basic)) {
+        if (gameType.equals(GameType.Basic)) {
             result += "Draw Pile has " + drawPile.getDeckSize() + " cards remaining" + "\n";
         }
 
