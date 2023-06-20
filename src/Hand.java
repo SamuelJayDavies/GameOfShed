@@ -1,4 +1,7 @@
+import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Models a hand of cards that a particular player would hold. Can add/remove/get cards from their hand.
@@ -57,7 +60,7 @@ public class Hand {
         Card lowestCard = cards.get(0);
         for (Card card : cards) {
             if(card.getValue() != 2 && card.getValue() != 10) {
-                if (card.getValue() < lowestCard.getValue()) {
+                if (card.getValue() < lowestCard.getValue() || lowestCard.getValue() == 2 || lowestCard.getValue() == 10) {
                     lowestCard = card;
                 }
             }
@@ -77,6 +80,15 @@ public class Hand {
             }
         }
         return specialCard;
+    }
+
+    public void sortHand() {
+        Collections.sort(this.cards, new Comparator<Card>() {
+            @Override
+            public int compare(Card o1, Card o2) {
+                return o1.getValue() - o2.getValue();
+            }
+        });
     }
 
     /**
