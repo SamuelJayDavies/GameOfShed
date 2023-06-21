@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -177,10 +178,17 @@ public class Shed {
                             System.out.println("Another card can be played\n");
                             // In case a 10 was played as the last card in the hand
                             currentHand = getCurrentHand(player);
-                        } else if(canMultipleBePlayed(currentHand, cardToPlay)) {
+                        } else if(canMultipleBePlayed(currentHand, cardToPlay) && currentHand.getHandType() != HandType.Hidden) {
 
                             if(!player.getIsCpu()) {
-                                isTurnOver = selectPlayMultiple();
+                                if(selectPlayMultiple()) {
+                                    for(int i=currentHand.getNumOfCards()-1; i>=0; i--) {
+                                        Card currentCard = currentHand.getCard(i);
+                                        if(currentCard.getValue() == cardToPlay.getValue()) {
+                                            playCard(currentCard, currentHand, player);
+                                        }
+                                    }
+                                }
                             } else {
                                 isTurnOver = false;
                                 System.out.println(player.getName() + " plays another card");
@@ -234,14 +242,14 @@ public class Shed {
      */
     private boolean selectPlayMultiple() {
         Scanner myReader = new Scanner(System.in);
-        boolean choice = true;
+        boolean choice = false;
         boolean validDecision = false;
         while(!validDecision) {
-            System.out.println("Do you want to multiple cards? y/n:\n");
+            System.out.println("Do you want to your other cards of the same value? y/n:\n");
             String decision = myReader.nextLine();
             if(decision.equalsIgnoreCase("y")) {
                 validDecision = true;
-                choice = false;
+                choice = true;
             } else if(decision.equalsIgnoreCase("n")) {
                 validDecision = true;
             } else {
