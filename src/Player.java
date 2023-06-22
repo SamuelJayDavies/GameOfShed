@@ -76,6 +76,10 @@ public class Player {
         return this.name;
     }
 
+    /**
+     * Returns if this player is an AI or a human player.
+     * @return If the player is an AI or a human player.
+     */
     public boolean getIsCpu() {
         return this.isCpu;
     }

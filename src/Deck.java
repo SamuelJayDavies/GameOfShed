@@ -118,6 +118,10 @@ public class Deck {
         return this.cards.size() == 0;
     }
 
+    /**
+     * Returns the number of cards in the deck.
+     * @return The number of cards in the deck.
+     */
     public int getDeckSize() {
         return cards.size();
     }

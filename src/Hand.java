@@ -68,6 +68,10 @@ public class Hand {
         return lowestCard;
     }
 
+    /**
+     * Returns the lowest card that is not a 2 or a 10.
+     * @return Returns the lowest card that is not a 2 or a 10.
+     */
     public Card getLowestSpecialCard() {
         Card specialCard = null;
         for (Card card : cards) {
@@ -82,6 +86,9 @@ public class Hand {
         return specialCard;
     }
 
+    /**
+     * Sorts the hand into ascending numerical order.
+     */
     public void sortHand() {
         Collections.sort(this.cards, new Comparator<Card>() {
             @Override
