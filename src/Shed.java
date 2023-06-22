@@ -94,7 +94,9 @@ public class Shed {
             if (player.getGeneralHand().getNumOfCards() < 3) {
                 ArrayList<Card> cards = new ArrayList<>();
                 for(int i=3; i>player.getGeneralHand().getNumOfCards(); i--) {
-                    cards.add(drawPile.deal());
+                    if(!(drawPile.isEmpty())) {
+                        cards.add(drawPile.deal());
+                    }
                 }
                 receiveCards(player, cards);
             }
@@ -190,10 +192,19 @@ public class Shed {
                                     }
                                 }
                             } else {
-                                isTurnOver = false;
-                                System.out.println(player.getName() + " plays another card");
+                                for(int i=currentHand.getNumOfCards()-1; i>=0; i--) {
+                                    Card currentCard = currentHand.getCard(i);
+                                    if(currentCard.getValue() == cardToPlay.getValue()) {
+                                        playCard(currentCard, currentHand, player);
+                                    }
+                                }
                             }
+                        }
 
+                        if(isLastCardsEqual()) {
+                            isTurnOver = false;
+                            discardPile.empty(); // Don't like this at all
+                            System.out.println("Four cards of equal value have been played, the discard pile has been cleared and another card can be played\n");
                         }
                     }
                 } else if (cardToPlay == null) {
@@ -298,6 +309,22 @@ public class Shed {
             System.out.println("Discard deck has been cleared\n");
             // Add ability to play another card here
         }
+
+
+    }
+
+    private boolean isLastCardsEqual() {
+        ArrayList<Card> cards = discardPile.getCards();
+        if(cards.size() >= 4) {
+            if(cards.get(0).getValue() == cards.get(1).getValue()
+                    && (cards.get(1).getValue() == cards.get(2).getValue())
+                    && (cards.get(2).getValue() == cards.get(3).getValue())) {
+
+                return true;
+
+            }
+        }
+        return false;
     }
 
     /**
