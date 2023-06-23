@@ -1,3 +1,5 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -45,7 +47,7 @@ public class Shed {
     private GameType setGameType() {
         Scanner myReader = new Scanner(System.in);
         System.out.println("Welcome to Shed, which game mode do you want to play\n");
-        System.out.println("1: Basic Fast Track \n2: Basic \n3: Regular Fast Track \n4: Regular");
+        System.out.println("1: Basic Fast Track \n2: Basic \n3: Regular Fast Track \n4: Regular\n5: Help");
 
 
         boolean isFinished = false;
@@ -61,12 +63,27 @@ public class Shed {
                 case 2 -> selectedGameMode = GameType.Basic;
                 case 3 -> selectedGameMode = GameType.RegularFast;
                 case 4 -> selectedGameMode = GameType.Regular;
+                case 5 -> System.out.println(getHelpScreen());
                 default -> System.out.println("Please enter a number that corresponds to one of the game modes");
             }
 
             isFinished = selectedGameMode != null;
         }
         return selectedGameMode;
+    }
+
+    private String getHelpScreen() {
+        File helpTxt = new File("src/helpTxt");
+        String result = "";
+        try{
+            Scanner myReader = new Scanner(helpTxt);
+            while(myReader.hasNextLine()) {
+                result += myReader.nextLine() + "\n";
+            }
+        }catch(FileNotFoundException error) {
+            System.out.println("File not found, please enter a number");
+        }
+        return result;
     }
 
     /**

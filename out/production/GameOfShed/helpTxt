@@ -27,3 +27,27 @@ Their will be multiple game modes for Shed.
     The player can stack cards of the same value, stacking 4 of the same will result in an extra turn.
     10's now also allow the player to play another card afterwards.
     Player wins when they no longer have any cards in any hands.
+
+Shed is a card game where the aim is to play all of your cards before the other player can. Cards are played onto the discard pile
+and drawn from the draw pile. For a card to be suitable it needs to be greater than or equal to the value of the card in the discard pile.
+If the player has no eligible cards, they will pick up all the cards in the discard pile.
+
+Each player has 3 hands of cards at their disposal:
+
+- General Hand
+- Constrained Hand
+- Hidden Hand
+
+The general hand are the cards in the players hand's. All of these cards need to be played to allow access to the constrained hand.
+When the discard pile is picked up, all those cards are placed into the general hand.
+
+The constrained hand are cards that sit on top of the hidden hand. These cards can't be played until the general hand is empty. Once all of
+these cards have been played, the player now has access to the hidden hand.
+
+The cards in the hidden hand are facing down where the values of the cards can't be seen. When the player is using cards from the hidden hand
+they will have to blindly play cards onto the discard pile to see if they are eligible. However, if a card fails to be suitable it will go into
+the general hand.
+
+Once all 3 of these hands have been emptied, the player wins the game.
+
+In turn
