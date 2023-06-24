@@ -7,6 +7,5 @@ public class Test {
         Player sam = new Player("Sam", false);
         Player john = new Player("John", true);
         Shed testGame = new Shed(new ArrayList<Player>(Arrays.asList(sam, john)));
-        System.out.println("Test");
     }
 }

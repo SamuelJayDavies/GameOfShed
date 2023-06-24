@@ -1,7 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -31,6 +30,21 @@ public class Shed {
      * Constructor for Shed that creates a draw and discard pile while also starting the game.
      *
      * @param players The players that will be participating in the game.
+     */
+
+    /**
+     * "Do you want to play your other cards of the same value"
+     */
+    private static final String PLAY_MULTI = "Do you want to play your other cards of the same value y/n: \n";
+
+    /**
+     * "Do you want to play again?"
+     */
+    private static final String PLAY_AGAIN = "Do you want to play again? y/n: \n";
+
+    /**
+     * Constructor that creates a draw and discard pile and also starts a game of Shed.
+     * @param players The players that will be participating in the game of Shed.
      */
     public Shed(ArrayList<Player> players) {
         this.players = players;
@@ -72,6 +86,10 @@ public class Shed {
         return selectedGameMode;
     }
 
+    /**
+     * Returns text that explains the rules of Shed.
+     * @return String that explains the rules of Shed.
+     */
     private String getHelpScreen() {
         File helpTxt = new File("src/helpTxt");
         String result = "";
@@ -88,6 +106,7 @@ public class Shed {
 
     /**
      * Starts a game of Shed. One execution will play a whole game of Shed.
+     * @param gameMode The current gameMode of the game Shed.
      */
     private void startGame(GameType gameMode) {
         drawPile.shuffle();
@@ -104,8 +123,17 @@ public class Shed {
             n++;
         }
         System.out.println("Game Over");
+        if(selectOption(PLAY_AGAIN)) {
+            startGame(setGameType());
+        } else {
+            System.out.println("Thanks for playing!");
+        }
     }
 
+    /**
+     * For regular length games, this will always ensure that both players have at least 3 cards before the drawPile
+     * is empty.
+     */
     private void preGameDraw() {
         for (Player player : players) {
             if (player.getGeneralHand().getNumOfCards() < 3) {
@@ -164,7 +192,7 @@ public class Shed {
     }
 
     /**
-     * Acts as one round of Shed.
+     * Plays one round of Shed. From choosing the card to be played, checking if it is eligible and playing it onto the deck.
      *
      * @return Returns true if a player has won, else returns false to start another round.
      */
@@ -200,7 +228,7 @@ public class Shed {
                         } else if(canMultipleBePlayed(currentHand, cardToPlay) && currentHand.getHandType() != HandType.Hidden) {
 
                             if(!player.getIsCpu()) {
-                                if(selectPlayMultiple()) {
+                                if(selectOption(PLAY_MULTI)) {
                                     for(int i=currentHand.getNumOfCards()-1; i>=0; i--) {
                                         Card currentCard = currentHand.getCard(i);
                                         if(currentCard.getValue() == cardToPlay.getValue()) {
@@ -254,6 +282,13 @@ public class Shed {
         return false;
     }
 
+    /**
+     * Returns if multiple cards of the same value can currently be played. Checks if there is at least another card of
+     * the same value in the current hand.
+     * @param currentHand The hand that is in play.
+     * @param previousCard The card that was played previously.
+     * @return If another card's value in the current hand is equal to the previously played card.
+     */
     private boolean canMultipleBePlayed(Hand currentHand, Card previousCard) {
         boolean multiple = false;
         for(Card card: currentHand.getCards()) {
@@ -265,15 +300,15 @@ public class Shed {
     }
 
     /**
-     * Come up with better name and make this method neater
-     * @return
+     * Method that prints out the choiceStr and makes the user type either y/n and returns that result as a boolean.
+     * @return True if the user types y, false otherwise.
      */
-    private boolean selectPlayMultiple() {
+    private boolean selectOption(String choiceStr) {
         Scanner myReader = new Scanner(System.in);
         boolean choice = false;
         boolean validDecision = false;
         while(!validDecision) {
-            System.out.println("Do you want to your other cards of the same value? y/n:\n");
+            System.out.println(choiceStr);
             String decision = myReader.nextLine();
             if(decision.equalsIgnoreCase("y")) {
                 validDecision = true;
@@ -287,6 +322,11 @@ public class Shed {
         return choice;
     }
 
+    /**
+     * Checks if the cardToPlay is eligible based on the value of the card on the discard pile.
+     * @param cardToPlay The card that has been chosen to play.
+     * @return True if the card is playable, false otherwise.
+     */
     private boolean isCardPlayable(Card cardToPlay) {
         if (cardToPlay != null) {
             if (discardPile.isEmpty() || cardToPlay.getValue() == 2 || cardToPlay.getValue() == 10) {
@@ -313,6 +353,7 @@ public class Shed {
      *
      * @param cardToPlay  The card that is being played.
      * @param currentHand The hand the card came from.
+     * @param player The player that is playing the card.
      */
     private void playCard(Card cardToPlay, Hand currentHand, Player player) {
 
@@ -330,6 +371,10 @@ public class Shed {
 
     }
 
+    /**
+     * Method that checks if the last four cards have equal value.
+     * @return
+     */
     private boolean isLastCardsEqual() {
         ArrayList<Card> cards = discardPile.getCards();
         if(cards.size() >= 4) {
@@ -363,8 +408,10 @@ public class Shed {
     /**
      * SelectCard will read out the players available cards and read in which one they want to play. It will only let them
      * specify the index of an available card, and if an invalid card is chosen, they will automatically pick up the pile.
+     * If isCpu is true, the method will return the optimum card that could be played in that scenario.
      *
      * @param currentHand The hand the card is being selected from.
+     * @param isCpu If the currentHand belongs to a player or a computer.
      * @return The chosen valid card.
      */
     private Card selectCard(Hand currentHand, boolean isCpu) {
@@ -394,6 +441,11 @@ public class Shed {
         }
     }
 
+    /**
+     * Gets the optimum card for the computer in that particular scenario.
+     * @param currentHand The current hand of the computer.
+     * @return The best card to play in that scenario.
+     */
     private Card cpuCardChoice(Hand currentHand) {
         if(currentHand.getHandType().equals(HandType.Hidden)) {
             Random random = new Random();
@@ -411,7 +463,7 @@ public class Shed {
                 for (Card card : currentHand.getCards()) {
                     // Not happy with the way this method is written.
                     // Should have a special card still assigned as a cardToPlay, but just overridden when a better basic card is
-                    // found. Currently, it will ignore special cards and just find them at the end.
+                    // found. Currently, it will ignore special cards and just find them at the end again.
                     if (card.getValue() >= comparisonCard.getValue() && (card.getValue() != 2 || card.getValue() != 10)) {
 
                         if (cardToPlay == null) {
@@ -438,6 +490,11 @@ public class Shed {
 
     }
 
+    /**
+     * Returns a string containing all the cards in the currentHand.
+     * @param currentHand The current hand being played.
+     * @return A String containing all the card choices that can be played.
+     */
     private String getCardChoices(Hand currentHand) {
         String stringMsg = "please select which card to play: \n";
         int i;
@@ -456,7 +513,7 @@ public class Shed {
 
     /**
      * Returns the count of each player's cards in each of their hands.
-     *
+     * @param gameType The current gameType of the game.
      * @return The count of each player's cards in each of their hands.
      */
     private String getCurrentState(GameType gameType) {
