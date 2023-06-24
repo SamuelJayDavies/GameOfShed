@@ -48,8 +48,53 @@ public class Shed {
      */
     public Shed(ArrayList<Player> players) {
         this.players = players;
+        populateDecks();
+        startGame(setGameType());
+    }
+
+    private void populateDecks() {
         drawPile = new Deck(DeckType.DRAW);
         discardPile = new Deck(DeckType.DISCARD);
+    }
+
+    private ArrayList<Player> selectPlayers() {
+        ArrayList<Player> playerArrayList = new ArrayList<Player>();
+        Scanner myReader = new Scanner(System.in);
+        System.out.println("---------------- Advanced Setup ----------------\n");
+        System.out.println("Please enter your name: ");
+        playerArrayList.add(new Player(myReader.nextLine(), false));
+
+        System.out.println("How many other players do you want in the game: ");
+
+        while(!(myReader.hasNextInt())) {
+            System.out.println("Please enter a number: ");
+            myReader.nextLine();
+        }
+        int numOfOpponents = myReader.nextInt();
+        myReader.nextLine(); // Throw out enter key
+        for(int i = 0; i < numOfOpponents; i++) {
+
+            boolean validChoice = false;
+            System.out.println("Do you want to this player to be a computer or another person? c/p: ");
+            while(!validChoice) {
+                String choice = myReader.nextLine();
+                if(choice.equalsIgnoreCase("c")) {
+                    playerArrayList.add(new Player("Bob", true));
+                    validChoice = true;
+                } else if(choice.equalsIgnoreCase("p")) {
+                    System.out.println("Please enter the other players' name");
+                    playerArrayList.add(new Player(myReader.nextLine(), false));
+                    validChoice = true;
+                } else {
+                    System.out.println("Please enter either c/p:");
+                }
+            }
+        }
+        return playerArrayList;
+    }
+
+    private void advancedSetup() {
+        this.players = selectPlayers();
         startGame(setGameType());
     }
 
@@ -61,7 +106,7 @@ public class Shed {
     private GameType setGameType() {
         Scanner myReader = new Scanner(System.in);
         System.out.println("Welcome to Shed, which game mode do you want to play\n");
-        System.out.println("1: Basic Fast Track \n2: Basic \n3: Regular Fast Track \n4: Regular\n5: Help");
+        System.out.println("1: Basic Fast Track \n2: Basic \n3: Regular Fast Track \n4: Regular\n5: Advanced Setup\n6: Help");
 
 
         boolean isFinished = false;
@@ -77,7 +122,8 @@ public class Shed {
                 case 2 -> selectedGameMode = GameType.Basic;
                 case 3 -> selectedGameMode = GameType.RegularFast;
                 case 4 -> selectedGameMode = GameType.Regular;
-                case 5 -> System.out.println(getHelpScreen());
+                case 5 -> advancedSetup();
+                case 6 -> System.out.println(getHelpScreen());
                 default -> System.out.println("Please enter a number that corresponds to one of the game modes");
             }
 
@@ -112,18 +158,19 @@ public class Shed {
         drawPile.shuffle();
         dealCards();
         int n = 1;
-        System.out.println("Round " + n);
+        System.out.println("---------------- Round " + n + " ----------------");
         System.out.println(this.getCurrentState(gameMode));
         while (!(roundStart(gameMode))) {
             if ((gameMode.equals(GameType.Basic) || gameMode.equals(GameType.Regular)) && (!(drawPile.isEmpty()))) {
                 preGameDraw();
             }
-            System.out.println("Round " + (n + 1));
+            System.out.println("---------------- Round " + (n + 1) + " ----------------");
             System.out.println(this.getCurrentState(gameMode));
             n++;
         }
         System.out.println("Game Over");
         if(selectOption(PLAY_AGAIN)) {
+            populateDecks();
             startGame(setGameType());
         } else {
             System.out.println("Thanks for playing!");
@@ -360,7 +407,7 @@ public class Shed {
         discardPile.addCard(cardToPlay);
         currentHand.removeCard(cardToPlay);
 
-        System.out.println(player.getName() + " has played " + cardToPlay);
+        System.out.println(player.getName() + " has played " + cardToPlay + "\n");
 
         if (cardToPlay.getValue() == 10) {
             discardPile.empty();

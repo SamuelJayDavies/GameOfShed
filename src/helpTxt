@@ -2,6 +2,8 @@ Shed is a card game where the aim is to play all of your cards before the other 
 and drawn from the draw pile. For a card to be suitable it needs to be greater than or equal to the value of the card in the discard pile.
 If the player has no eligible cards, they will pick up all the cards in the discard pile.
 
+---------------------------------------------------------------------------------------------------------------------------------------------
+
 Each player has 3 hands of cards at their disposal:
 
 - General Hand
@@ -19,6 +21,8 @@ they will have to blindly play cards onto the discard pile to see if they are el
 the general hand.
 
 Once all 3 of these hands have been emptied, the player wins the game.
+
+---------------------------------------------------------------------------------------------------------------------------------------------
 
 There are also 3 special cards, 2s, 10s and 7s:
 
@@ -56,8 +60,13 @@ Those are the regular rules of Shed but there are also a variety of game-modes t
     10's now also allow the player to play another card afterwards.
     Player wins when they no longer have any cards in any hands.
 
+- Advanced Setup
+    Allows for the amount of players to be changed and selecting if each player is a computer or another person.
+
 Essentially, fast track will be a far shorter game and basic simplifies the rules for new players, by not allowing multiple cards
 being played or extra turns.
+
+---------------------------------------------------------------------------------------------------------------------------------------------
 
 Congrats on learning how to play Shed, hope you enjoy playing!
 
@@ -67,4 +76,5 @@ Now, please select your game-mode:
 2: Basic
 3: Fast Track Regular
 4: Regular
-5: Help
+5: Advanced Setup
+6: Help
