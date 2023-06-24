@@ -27,12 +27,6 @@ public class Shed {
     private ArrayList<Player> players;
 
     /**
-     * Constructor for Shed that creates a draw and discard pile while also starting the game.
-     *
-     * @param players The players that will be participating in the game.
-     */
-
-    /**
      * "Do you want to play your other cards of the same value"
      */
     private static final String PLAY_MULTI = "Do you want to play your other cards of the same value y/n: \n";
@@ -58,7 +52,7 @@ public class Shed {
     }
 
     private ArrayList<Player> selectPlayers() {
-        ArrayList<Player> playerArrayList = new ArrayList<Player>();
+        ArrayList<Player> playerArrayList = new ArrayList<>();
         Scanner myReader = new Scanner(System.in);
         System.out.println("---------------- Advanced Setup ----------------\n");
         System.out.println("Please enter your name: ");
@@ -420,7 +414,7 @@ public class Shed {
 
     /**
      * Method that checks if the last four cards have equal value.
-     * @return
+     * @return If the cards are equal.
      */
     private boolean isLastCardsEqual() {
         ArrayList<Card> cards = discardPile.getCards();
