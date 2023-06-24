@@ -1,4 +1,4 @@
-# GameOfShed
+# Game Of Shed
 Card game that can be played with 2 or more players including various different game-modes, AI and advanced setup. Basic instructions can be found below on how to play:
 
 Shed is a card game where the aim is to play all of your cards before the other player can. Cards are played onto the discard pile
