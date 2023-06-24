@@ -1,6 +1,8 @@
 # Game Of Shed
 Card game that can be played with 2 or more players including various different game-modes, AI and advanced setup. Basic instructions can be found below on how to play:
 
+# How to Play Shed
+
 Shed is a card game where the aim is to play all of your cards before the other player can. Cards are played onto the discard pile
 and drawn from the draw pile. For a card to be suitable it needs to be greater than or equal to the value of the card in the discard pile.
 If the player has no eligible cards, they will pick up all the cards in the discard pile.
@@ -71,7 +73,7 @@ being played or extra turns.
 
 ---------------------------------------------------------------------------------------------------------------------------------------------
 
-# How to Play
+# How to Run
 You can either download the project and run it for yourself within your IDE. Or you can download the .jar file "GameOfShed.jar" and run it in your Windows Powershell with the command
 
   java -jar GameOfShed.jar (in the directory containing the jar file)
