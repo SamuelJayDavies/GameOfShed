@@ -139,7 +139,7 @@ public class Shed {
                 result += myReader.nextLine() + "\n";
             }
         }catch(FileNotFoundException error) {
-            System.out.println("File not found, please enter a number");
+            System.out.println("File not found, please download helpTxt from the github repo");
         }
         return result;
     }
@@ -206,6 +206,9 @@ public class Shed {
         }
         for (int i = 0; i < 3; i++) {
             for (Player player : players) {
+                receiveCard(player, drawPile.deal(), HandType.Regular);
+                receiveCard(player, drawPile.deal(), HandType.Regular);
+                receiveCard(player, drawPile.deal(), HandType.Regular);
                 receiveCard(player, drawPile.deal(), HandType.Regular);
             }
         }
@@ -418,10 +421,11 @@ public class Shed {
      */
     private boolean isLastCardsEqual() {
         ArrayList<Card> cards = discardPile.getCards();
-        if(cards.size() >= 4) {
-            if(cards.get(0).getValue() == cards.get(1).getValue()
-                    && (cards.get(1).getValue() == cards.get(2).getValue())
-                    && (cards.get(2).getValue() == cards.get(3).getValue())) {
+        int cardsSize = cards.size();
+        if(cardsSize >= 4) {
+            if(cards.get(cardsSize-1).getValue() == cards.get(cardsSize-2).getValue()
+                    && (cards.get(cardsSize-2).getValue() == cards.get(cardsSize-3).getValue())
+                    && (cards.get(cardsSize-3).getValue() == cards.get(cardsSize-4).getValue())) {
 
                 return true;
 
