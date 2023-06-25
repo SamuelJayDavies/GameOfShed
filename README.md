@@ -74,8 +74,7 @@ being played or extra turns.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 
 # How to Run
-You can either download the project and run it for yourself within your IDE. Or you can download the .jar file "GameOfShed.jar" and run it in your Windows Powershell with the command
-
-  java -jar GameOfShed.jar (in the directory containing the jar file)
+Install the zip and navigate to the exe folder. Once there, simply click on the GameOfShed.bat file and the game will start. The game can be played
+with only the exe folder, but the help screen requires the helpTxt file.
 
 Hope you enjoy playing, was just a quick side project I made because of how much I played this card game in my first year of university.
